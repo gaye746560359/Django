@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
 """
 命令行运行：python manage.py runserver
-其他电脑访问：
+允许其他电脑访问：
 python manage.py runserver 0.0.0.0:8000
 
 同步修改数据库1.9

@@ -4,15 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django import forms
 from models import OneUser
-from django.core.context_processors import csrf
+from django.middleware import csrf
 
 
-# # 表单
-# class UserForm(forms.Form):
-#     email = forms.CharField(label='用户名', max_length=100)
-#     password = forms.CharField(label='密码', widget=forms.PasswordInput())
-#
-#
 # # 注册
 # def regist(req):
 #     if req.method == 'POST':
@@ -69,15 +63,26 @@ from django.core.context_processors import csrf
 
 
 # 首页 ip = request.META['REMOTE_ADDR']
-def index(request):
+def login(request):
     if request.POST:
         # dbEmail = OneUser.objects.values("email")
         # bdPwd = OneUser.objects.values("password")
         username = request.POST['username']
         password = request.POST['password']
-        user = OneUser.objects.filter(email__exact=username, password__exact=password)
+        user = OneUser.objects.filter(email__exact=username, password__exact=password,
+                                      ip__exact=str(request.META['REMOTE_ADDR']))
         if user:
             return HttpResponse("登录成功")
         else:
             return HttpResponse("账户或密码错误")
-    return render(request, "index.html")
+    return render(request, "login.html")
+
+
+def register(request):
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        ip = str(request.META['REMOTE_ADDR'])
+        OneUser.objects.create(email=username, password=password, ip=ip)
+        return render_to_response('login.html')
+    return render(request, 'register.html')

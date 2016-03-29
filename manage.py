@@ -17,6 +17,8 @@ if __name__ == "__main__":
 允许其他电脑访问：
 python manage.py runserver 0.0.0.0:8000
 
+python manage.py validate 检查模型的语法和逻辑是否正确
+
 同步修改数据库1.9
 python manage.py makemigrations
 python manage.py migrate

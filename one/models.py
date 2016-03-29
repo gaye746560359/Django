@@ -123,7 +123,6 @@ class DjangoSession(models.Model):
 class OneUser(models.Model):
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    ip = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False

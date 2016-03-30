@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django import forms
 from models import OneUser
 from django.middleware import csrf
+from scriptUtils import utils
 
 
 # # 注册
@@ -69,13 +70,22 @@ def login(request):
         # bdPwd = OneUser.objects.values("password")
         username = request.POST['username']
         password = request.POST['password']
-        user = OneUser.objects.filter(email__exact=username, password__exact=password,
-                                      ip__exact=str(request.META['REMOTE_ADDR']))
-        if user:
-            return HttpResponse("登录成功")
-        else:
-            return HttpResponse("账户或密码错误")
+        user = OneUser.objects.filter(email__exact=username, password__exact=password)
+        while True:
+            mem_command = "dumpsys meminfo %s|gawk '/MEMINFO/,/App Summary/'|grep TOTAL|gawk '{print $2}'" % utils.get_current_package_name()
+            mem_data = utils.shell(mem_command).stdout.readline().split()[0]
+            print mem_data
+            if user:
+                return render(request, 'dataShow.html', {'mem_data': mem_data})  # 给数据展示页面传递参数mem_data
+            else:
+                return HttpResponse("账号或密码错误")
     return render(request, "login.html")
+
+
+# 登陆成功添加cookie
+def index(req):
+    email = req.COOKIES.get('username', '')
+    return render_to_response('dataShow.html', {'username': email})
 
 
 def register(request):

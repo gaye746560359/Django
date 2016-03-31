@@ -12,11 +12,13 @@
     <script src="/static/js/jquery-1.8.3.min.js"></script>
 </head>
 <body>
+{% load myfilter %}
 	<div id="hresult">
 		<div class="result_title">
             <ul class="result_tables">
            	
            	 <li class="table" data-index="result">Result</li>
+                <button type="button" id='btt'>采集</button>
 {#           	#}
 {#           	 <li class="table" data-index="js">Javascript</li>#}
 {#           	#}
@@ -34,82 +36,6 @@
                    <div id="container" style="min-width:400px;height:400px"></div>
                 </li>
                 <li class="con js"><textarea id="javascript">
-$(function () {
-    $(document).ready(function () {
-        Highcharts.setOptions({
-            global: {
-                useUTC: false
-            }
-        });
-
-        $('#container').highcharts({
-            chart: {
-                type: 'spline',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-                events: {
-                    load: function () {
-
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series.addPoint([x, y], true, true);
-                        }, 1000);
-                    }
-                }
-            },
-            title: {
-                text: 'Live random data'
-            },
-            xAxis: {
-                type: 'datetime',
-                tickPixelInterval: 150
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-        });
-    });
-});
 
 
 </textarea></li>
@@ -127,117 +53,111 @@ $(function () {
 
     <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/static/js/highcharts.js"></script>
-
     <script type="text/javascript" src="/static/js/common.js"></script>
     <script type="text/javascript" src="/static/js/codemirror.js"></script>
     <script type="text/javascript" src="/static/js/javascript.js"></script>
     <script type="text/javascript" src="/static/js/xml.js"></script>
     <script type="text/javascript" src="/static/js/css.js"></script>
 	<script type="text/javascript">
-        var chart = null;
-        var js = null;
-        var html = null;
-        var css = null;
-        var list = {{ mem_data }};
-         autoSize();
-        table("result");
+    var chart = null;
+    var js = null;
+    var html = null;
+    var css = null;
+    autoSize();
+    table("result");
 
-        $(".result_tables").find(".table").click(function(){
-            var cla = $(this).data("index");
-            table(cla);
-        });
-        window.onresize = autoSize;
-       
-       
-
-        function loadResult(chart) {
-            if(chart==null) {
-               
-$(function () {
-    $(document).ready(function () {
-        Highcharts.setOptions({
-            global: {
-                useUTC: false
-            }
-        });
-
-        $('#container').highcharts({
-            chart: {
-                type: 'spline',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-                events: {
-                    load: function () {
-
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series.addPoint([x, {{ mem_data }}], true, true);
-                        }, 1000);
-                    }
-                }
-            },
-            title: {
-                text: '性能数据'
-            },
-            xAxis: {
-                type: 'datetime',
-                tickPixelInterval: 150
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Memory_PSS',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: {{ mem_data }}  {# 接收来自views类的参数 #}
-                        });
-                    }
-                    return data;
-                }())
-            }]
-        });
+    $(".result_tables").find(".table").click(function () {
+        var cla = $(this).data("index");
+        table(cla);
     });
-});
+    window.onresize = autoSize;
 
 
-            } else {
-               chart.reflow();
-            }
-            return chart;
+    function loadResult(chart) {
+        if (chart == null) {
+
+            $(function () {
+                $(document).ready(function () {
+                    Highcharts.setOptions({
+                        global: {
+                            useUTC: false
+                        }
+                    });
+
+                    $('#container').highcharts({
+                        chart: {
+                            type: 'spline',
+                            animation: Highcharts.svg, // don't animate in old IE
+                            marginRight: 10,
+                            events: {
+                                load: function () {
+
+                                    // set up the updating of the chart each second
+                                    var series = this.series[0];
+                                    setInterval(function () {
+                                        var x = (new Date()).getTime(), // current time
+                                                y = null;
+                                        series.addPoint([x, {{ dicts|key:"mem_data" }}], true, true);
+                                    }, 1000);
+                                }
+                            }
+                        },
+                        title: {
+                            text: '性能数据'
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            tickPixelInterval: 150
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Value'
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                return '<b>' + this.series.name + '</b><br/>' +
+                                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                        Highcharts.numberFormat(this.y, 2);
+                            }
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        series: [{
+                            name: "pss",
+                            data: (function () {
+                                // generate an array of random data
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
+                                for (i = -19; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: {{ dicts|key:"mem_data" }}  {# 接收来自views类的参数 #}
+                                    });
+                                }
+                                return data;
+                            }())
+                        }]
+                    });
+                });
+            });
+
+        } else {
+            chart.reflow();
         }
-        
-  
-	</script>
+        return chart;
+    }
+    </script>
+
 </body>
 </html>

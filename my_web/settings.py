@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'one',
     'users',
     'bootstrap3',
+    'django.templatetags'
 ]
 
 # 覆盖默认user

@@ -1,7 +1,7 @@
 # Django
 django进行web开发
 python 2.7.11
-django 1.9.5
+django 1.9.5 
 django数据库操作（models替换成models模块中的数据类名）：
 http://my.oschina.net/leeyd/blog/367688
 http://www.jb51.net/article/42870.htm

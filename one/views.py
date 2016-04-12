@@ -1,15 +1,10 @@
 # coding=utf-8
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.template import RequestContext
-from django import forms
+from django.http import HttpResponse
 from models import OneUser
-from django.middleware import csrf
-from scriptUtils import utils
-import json
 
 
-# # 注册
+# # 注册ip = request.META['REMOTE_ADDR']
 # def regist(req):
 #     if req.method == 'POST':
 #         uf = UserForm(req.POST)
@@ -64,55 +59,7 @@ import json
 #     return response
 
 
-# 首页 ip = request.META['REMOTE_ADDR']
-def login(request):
-    if request.POST:
-        # dbEmail = OneUser.objects.values("email")
-        # bdPwd = OneUser.objects.values("password")
-        username = request.POST['username']
-        password = request.POST['password']
-        user = OneUser.objects.filter(email__exact=username, password__exact=password)
-        curPkg = utils.get_current_package_name()
-        while True:
-            mem_command = "dumpsys meminfo %s|gawk '/MEMINFO/,/App Summary/'|grep TOTAL|gawk '{print $2}'" % curPkg
-            try:
-                mem_data = utils.shell(mem_command).stdout.readline().split()[0]
-            except ValueError:
-                mem_data = 0
-            dicts = {'mem_data': mem_data, 'curPkg': curPkg}
-            if user:
-                return render(request, 'chart.html', {'dicts': dicts})  # 给数据展示页面传递参数mem_data
-            else:
-                return HttpResponse("账号或密码错误")
-    return render(request, "login.html")
-
-
 # 登陆成功添加cookie
 def index(req):
     email = req.COOKIES.get('username', '')
-    return render_to_response('dataShow.html', {'username': email})
-
-
-def register(request):
-    if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-        ip = str(request.META['REMOTE_ADDR'])
-        OneUser.objects.create(email=username, password=password, ip=ip)
-        return render_to_response('login.html')
-    return render(request, 'register.html')
-
-
-def data(requst):
-    i = 0
-    while i == 1000:
-        i += 1
-        curPkg = utils.get_current_package_name()
-        mem_command = "dumpsys meminfo %s|gawk '/MEMINFO/,/App Summary/'|grep TOTAL|gawk '{print $2}'" % curPkg
-        try:
-            mem_data = utils.shell(mem_command).stdout.readline().split()[0]
-
-        except ValueError:
-            mem_data = 1
-        dicts = {'mem_data': mem_data, 'curPkg': curPkg}
-        return render_to_response(template_name='chart.html', context={'dicts': mem_data})
+    return render_to_response('chart.html', {'username': email})

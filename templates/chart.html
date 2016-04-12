@@ -3,7 +3,6 @@
 <head>
 <title>报表</title>
 <script src="/static/js/Chart.min.js"></script>
-<script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
     <style type="text/css">
         body {
             text-align: center;
@@ -13,43 +12,7 @@
 <body>
 <legend>趋势</legend>
 	<canvas id="bar" height="500" width="1000"></canvas>
-{#    <script>#}
-{#        $(window).resize(resizeCanvas);#}
-{##}
-{#         function resizeCanvas() {#}
-{##}
-{#                canvas.attr("width", $(window).get(0).innerWidth);#}
-{##}
-{#                canvas.attr("height", $(window).get(0).innerHeight);#}
-{##}
-{#                context.fillRect(0, 0, canvas.width(), canvas.height());#}
-{##}
-{#     }#}
-{#        resizeCanvas();#}
-{#    </script>#}
-
 	<script>
-{#	var data = {#}
-{#			labels : ["January","February","March","April","May","June","July"],//X轴 坐标#}
-{#			datasets : [#}
-{#				{#}
-{#					fillColor : "rgba(220,220,220,0.5)",// 背景色#}
-{#					strokeColor : "rgba(220,220,220,1)",// 线#}
-{#					pointColor : "rgba(220,220,220,1)",// 点#}
-{#					pointStrokeColor : "#fff",//点的包围圈#}
-{#					data : [65,59,90,81,56,55,40]//Y轴坐标#}
-{#				},#}
-{#                    //第二组数据#}
-{#				{#}
-{#					fillColor : "rgba(151,187,205,0.5)",#}
-{#					strokeColor : "rgba(151,187,205,1)",#}
-{#					pointColor : "rgba(151,187,205,1)",#}
-{#					pointStrokeColor : "#fff",#}
-{#					data : [28,48,40,19,96,27,100]#}
-{#				}#}
-{#			]#}
-{#		};#}
-
         var dData = function() {
      return Math.round(Math.random() * 90) + 10;
     };
@@ -149,41 +112,9 @@
 
     // 动画完成时的执行函数
     onAnimationComplete : null
-
 };
     var ctx = document.getElementById("bar").getContext("2d");
     var myNewChart = new Chart(ctx).Line(data);
     </script>
-
-{#    <script>#}
-{#        var index = 11;#}
-{#        var ctx = document.getElementById('canvas').getContext('2d');#}
-{#        var barDemo = new Chart(ctx).Bar(barData, {#}
-{#         responsive: true#}
-{#        });#}
-{#        setInterval(function() {#}
-{#         barDemo.removeData();#}
-{#         barDemo.addData([dData()], 'dD ' + index);#}
-{#         index++;#}
-{#        }, 1000);#}
-{#    </script>#}
-
-{#    <script>#}
-{#        var dData = function() {#}
-{#     return Math.round(Math.random() * 90) + 10;#}
-{#    };#}
-{#    var barData = {#}
-{#     labels: ['dD 1', 'dD 2', 'dD 3', 'dD 4',#}
-{#          'dD 5', 'dD 6', 'dD 7', 'dD 8'],#}
-{#     datasets: [{#}
-{#      fillColor: 'rgba(0,60,100,1)',#}
-{#      strokeColor: 'black',#}
-{#      data: [dData(), dData(), dData(), dData(),#}
-{#          dData(), dData(), dData(), dData()]#}
-{#     }]#}
-{#    }#}
-{#    </script>#}
-
-
 </body>
 </html>

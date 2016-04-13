@@ -15,29 +15,30 @@
         var dData = function() {
             return Math.round(Math.random() * 90) + 1000;
     };
-        var num = 0;
-    var data = {
-        labels: ['dD 1', 'dD 2', 'dD 3', 'dD 4', 'dD 5', 'dD 6', 'dD 7', 'dD 8'],
-     datasets : [{
-					fillColor : "rgba(220,220,220,0.5)",// 背景色
-					strokeColor : "rgba(220,220,220,1)",// 线
-					pointColor : "rgba(220,220,220,1)",// 点
-					pointStrokeColor : "#fff",//点的外圈
-      data: [dData(), dData(), dData(), dData(),
-          dData(), dData(), dData(), dData()]
-     }]
-    };
-
-        var index = 0;
+        var arr = [];
+        var data = {
+            labels  : ['dD 1', 'dD 2', 'dD 3', 'dD 4', 'dD 5', 'dD 6', 'dD 7', 'dD 8'],
+            datasets: [
+                {
+                    fillColor       : "rgba(220,220,220,0.5)",// 背景色
+                    strokeColor     : "rgba(220,220,220,1)",// 线
+                    pointColor      : "rgba(220,220,220,1)",// 点
+                    pointStrokeColor: "#fff",//点的外圈
+                    data            : [dData(), dData(), dData(), dData(), dData(), dData(), dData(), dData()]
+                }
+            ]
+        };
+        var index = 8;//初始8个数据
         var ctx = document.getElementById("LineChart").getContext("2d");
         var myNewChart = new Chart(ctx).Line(data, {
-            responsive: true
+            responsive    : true,//响应式
+            animationSteps: 1//动画时长
         });
         setInterval(function () {
             myNewChart.removeData();
             myNewChart.addData([dData()], 'dD ' + index);
             index++;
-        }, 2000);
+        }, 1000);//每秒更新一次数据
     </script>
 </body>
 </html>

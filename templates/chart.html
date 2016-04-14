@@ -3,6 +3,7 @@
 <head>
 <title>报表</title>
 <script src="/static/js/Chart.min.js"></script>
+    <script src="/static/js/d3.min.js"></script>
     <style type="text/css">
         body {
             text-align: center;
@@ -11,32 +12,45 @@
 </head>
 <body style="height: 100%;width: 100%;margin: 0;padding: 0;">
 <canvas id="LineChart" style=" height: 100%;width: 100%;margin: 0;padding: 0;display: block;"></canvas>
+<script>
+    function newdate() {
+        var date   = new Date();
+        var year   = date.getFullYear();
+        var month  = date.getMonth() + 1;
+        var day    = date.getDate();
+        var hour   = date.getHours();
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        {#    return year + '年' + month + '月' + day + '日 ' + hour + ':' + minute + ':' + second;#}
+        return hour + ':' + minute + ':' + second;
+    }
+</script>
 	<script>
         var dData = function() {
-            return Math.round(Math.random() * 90) + 1000;
+            return Math.round(Math.random() * 90);
     };
-        var arr = [];
         var data = {
-            labels  : ['dD 1', 'dD 2', 'dD 3', 'dD 4', 'dD 5', 'dD 6', 'dD 7', 'dD 8'],
+            labels  : ["", "", "", "", "", "", "", "", "", newdate()],
             datasets: [
                 {
                     fillColor       : "rgba(220,220,220,0.5)",// 背景色
                     strokeColor     : "rgba(220,220,220,1)",// 线
                     pointColor      : "rgba(220,220,220,1)",// 点
                     pointStrokeColor: "#fff",//点的外圈
-                    data            : [dData(), dData(), dData(), dData(), dData(), dData(), dData(), dData()]
+                    data            : [0, 0, 0, 0, 0, 0, 0, 0, 0, dData()]
                 }
             ]
         };
-        var index = 8;//初始8个数据
+        var index = 10;//初始n个数据
         var ctx = document.getElementById("LineChart").getContext("2d");
         var myNewChart = new Chart(ctx).Line(data, {
             responsive    : true,//响应式
-            animationSteps: 1//动画时长
+            animationSteps: 5//动画时长
         });
+        //设置一个定时器
         setInterval(function () {
             myNewChart.removeData();
-            myNewChart.addData([dData()], 'dD ' + index);
+            myNewChart.addData([dData()], newdate());
             index++;
         }, 1000);//每秒更新一次数据
     </script>

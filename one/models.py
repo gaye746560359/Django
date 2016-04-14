@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
+
 from django.db import models
 
 
@@ -122,11 +123,23 @@ class DjangoSession(models.Model):
 class OneUser(models.Model):
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    ip = models.CharField(max_length=50)
+    ip = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'one_user'
+
+
+class PerformanceData(models.Model):
+    cpu_data = models.CharField(max_length=50, blank=True, null=True)
+    mem_data = models.CharField(max_length=50, blank=True, null=True)
+    fps_data = models.CharField(max_length=50, blank=True, null=True)
+    bat_data = models.CharField(max_length=50, blank=True, null=True)
+    tmp_data = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'performance_data'
 
 
 class UsersUser(models.Model):

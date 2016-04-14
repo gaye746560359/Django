@@ -1,7 +1,8 @@
 # coding=utf-8
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
-from models import OneUser
+from models import *
+from scriptUtils import utils
 
 
 # # 注册ip = request.META['REMOTE_ADDR']
@@ -59,7 +60,11 @@ from models import OneUser
 #     return response
 
 
-# 登陆成功添加cookie
 def index(req):
-    email = req.COOKIES.get('username', '')
-    return render_to_response('chart.html', {'username': email})
+    # for i in range(100):
+    #     try:
+    #         mem_data = utils.adb("-s 127.0.0.1:62001 shell dumpsys meminfo com.longtu.weifuhua|gawk '/MEMINFO/,/App Summary/'|grep TOTAL|gawk '{print $2}'").stdout.readline()
+    #     except IOError:
+    #         mem_data = 1
+    #     PerformanceData.objects.create(mem_data=mem_data)
+    return render(req, "chart.html")

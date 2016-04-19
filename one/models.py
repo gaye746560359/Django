@@ -140,38 +140,3 @@ class PerformanceData(models.Model):
     class Meta:
         managed = False
         db_table = 'performance_data'
-
-
-class UsersUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    email = models.CharField(unique=True, max_length=255)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
-    user_type = models.ForeignKey(DjangoContentType, models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'users_user'
-
-
-class UsersUserGroups(models.Model):
-    user = models.ForeignKey(UsersUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'users_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class UsersUserUserPermissions(models.Model):
-    user = models.ForeignKey(UsersUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'users_user_user_permissions'
-        unique_together = (('user', 'permission'),)

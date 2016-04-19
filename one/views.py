@@ -60,11 +60,18 @@ from scriptUtils import utils
 #     return response
 
 
-def index(req):
-    # for i in range(100):
-    #     try:
-    #         mem_data = utils.adb("-s 127.0.0.1:62001 shell dumpsys meminfo com.longtu.weifuhua|gawk '/MEMINFO/,/App Summary/'|grep TOTAL|gawk '{print $2}'").stdout.readline()
-    #     except IOError:
-    #         mem_data = 1
-    #     PerformanceData.objects.create(mem_data=mem_data)
-    return render(req, "chart.html")
+def index(request):
+    return render(request, "chart.html")
+
+
+def data(req):
+    param = req.GET.get("p1")
+    if param == "start":
+        try:
+            mem_data = utils.adb(
+                    "-s 127.0.0.1:62001 shell dumpsys meminfo com.longtu.weifuhua|gawk '/MEMINFO/,/App Summary/'|grep TOTAL|gawk '{print $2}'").stdout.readline()
+        except IOError:
+            mem_data = 0
+        return HttpResponse(mem_data)
+    else:
+        return HttpResponse(0)
